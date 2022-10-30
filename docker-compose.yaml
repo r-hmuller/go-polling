@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - polling
+  cache:
+    image: bitnami/redis:6.2.7
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-persistence:/bitnami/redis/data
+    networks:
+      - polling
+networks:
+  polling:
+    driver: bridge
